@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { signUp } from "@/lib/auth-client";
 
 export const RegisterForm = () => {
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
@@ -21,6 +22,22 @@ export const RegisterForm = () => {
     if (!password) return toast.error("Please enter your password");
 
     console.log("register", { name, email, password });
+
+    await signUp.email(
+      {
+        name,
+        email,
+        password,
+      },
+      {
+        onRequest: () => {},
+        onResponse: () => {},
+        onSuccess: () => {},
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+      }
+    );
   }
 
   return (
